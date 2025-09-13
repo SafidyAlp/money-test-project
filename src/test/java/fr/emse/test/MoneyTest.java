@@ -2,6 +2,7 @@ package fr.emse.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals; // ✅ ajout
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,9 @@ public class MoneyTest {
         assertEquals(f12CHF, f12CHF);
         assertEquals(f12CHF, new Money(12, "CHF"));
         assertTrue(!f12CHF.equals(f14CHF));
+
+        // ✅ nouveau test : vérifier que deux monnaies différentes ne sont pas égales
+        assertNotEquals(f12CHF, f7USD);
     }
 
     @Test
@@ -44,5 +48,12 @@ public class MoneyTest {
         Money bag[] = { f12CHF, f7USD };
         MoneyBag expected = new MoneyBag(bag);
         assertEquals(expected, f12CHF.add(f7USD));
+    }
+
+    @Test
+    public void testDifferentCurrencyAdd() {
+        // ✅ nouveau test : addition USD + CHF
+        Money expected = new MoneyBag(new Money[] { f21USD, f14CHF });
+        assertEquals(expected, f21USD.add(f14CHF));
     }
 }
